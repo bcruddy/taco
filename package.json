@@ -1,0 +1,33 @@
+{
+    "name": "taco",
+    "version": "0.1.0",
+    "author": "brian ruddy <briancruddy@gmail.com>",
+    "private": true,
+    "devDependencies": {
+        "react-scripts": "^1.0.10"
+    },
+    "dependencies": {
+        "body-parser": "^1.17.2",
+        "express": "^4.15.3",
+        "express-url-cleaner": "^0.0.9",
+        "helmet": "^3.6.1",
+        "no-slash": "^1.2.15",
+        "react": "^15.5.4",
+        "react-dom": "^15.5.4",
+        "react-redux": "^5.0.5",
+        "react-router": "^4.1.1",
+        "react-router-dom": "^4.1.1",
+        "react-router-redux": "next",
+        "redux": "^3.6.0",
+        "redux-thunk": "^2.2.0",
+        "sanitize.css": "^5.0.0"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "start:proxy": "node server/index",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject"
+    },
+    "proxy": "http://localhost:3009/"
+}
