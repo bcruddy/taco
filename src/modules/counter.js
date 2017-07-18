@@ -20,6 +20,7 @@ export default (state = initialState, action) => {
         case INCREMENT:
             return {
                 ...state,
+                health: action.health ? 'alive' : ':-(',
                 count: state.count + 1,
                 isIncrementing: !state.isIncrementing
             };
@@ -41,6 +42,13 @@ export default (state = initialState, action) => {
 
 export const increment = () => {
     return dispatch => {
+        fetch('/api/health')
+            .then(res => res.json())
+            .then(health => {
+                dispatch({type: INCREMENT_REQUESTED});
+                dispatch({type: INCREMENT, health: health.alive});
+            });
+
         dispatch({type: INCREMENT_REQUESTED});
         dispatch({type: INCREMENT});
     };

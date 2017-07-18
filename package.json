@@ -12,6 +12,7 @@
         "express-url-cleaner": "^0.0.9",
         "helmet": "^3.6.1",
         "no-slash": "^1.2.15",
+        "node-fetch": "^1.7.1",
         "react": "^15.5.4",
         "react-dom": "^15.5.4",
         "react-redux": "^5.0.5",
