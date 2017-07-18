@@ -1,12 +1,9 @@
 import React from 'react';
+import Leadspace from '../../ui/leadspace';
 
 const Home = props => (
     <section className="taco--counter">
-        <header className="jumbotron">
-            <div className="container">
-                <h1>Home</h1>
-            </div>
-        </header>
+        <Leadspace title="Home" />
         <main className="container">
             <div className="row">
                 <div className="col-md-12">

@@ -3,23 +3,20 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {fetchEvents} from '../../modules/eventbright/events';
+import Leadspace from '../../ui/leadspace';
 
 const renderRows = (events) => {
-    return events.map((event, index) => {
-        return (<p key={`event-${index}`}>{event.name.text}</p>);
-    });
-};
-
-const renderLoadingState = () => {
-    return (<p>loading...</p>);
+    return events && events.length ? events.map((event, index) => (
+        <p key={`event-${index}`}>{event.name.text}</p>
+    )): '';
 };
 
 const Editor = props => {
     return (
         <section className="bulk-edit--event-bright">
-            <h3>Event Bright Bulk Editor</h3>
+            <Leadspace title="Event Bulk Editor" tagline="for editing eventbright events" />
             <p>{props.status} - <a onClick={props.fetchEvents}>fetch events</a></p>
-            {props.events && props.events.length ? renderRows(props.events) : renderLoadingState()}
+            {renderRows(props.events)}
         </section>
     );
 };

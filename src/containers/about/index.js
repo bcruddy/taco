@@ -3,15 +3,11 @@ import {push} from 'react-router-redux';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {increment, incrementAsync, decrement, decrementAsync} from '../../modules/counter';
+import Leadspace from '../../ui/leadspace';
 
 const About = (props) => (
     <section className="taco--counter">
-        <header className="jumbotron">
-            <div className="container">
-                <h1>About {props.health}</h1>
-                <p>Count: {props.count}</p>
-            </div>
-        </header>
+        <Leadspace title={`About ${props.health}`} tagline={`Count: ${props.count}`} />
         <main className="container">
             <div className="row">
                 <div className="col-md-12">
