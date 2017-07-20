@@ -3,6 +3,7 @@ import * as API from '../utils/api';
 
 const REFRESH_CRYPTO_REQUESTED = 'crypto/REFRESH_REQUESTED';
 const REFRESH_CRYPTO = 'crypto/REFRESH';
+const REFRESH_CRYPTO_REJECTED = 'crypto/REFRESH_REJECTED';
 
 const initialState = {
     status: 'init',
@@ -24,11 +25,6 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case REFRESH_CRYPTO_REQUESTED:
-            return {
-                ...initialState,
-                status: 'loading'
-            };
         case REFRESH_CRYPTO:
             const currencies = action.currencies.map(c => {
                 c.timestamp = moment(new Date(c.volume.timestamp)).format('M-D-YY h:mm:ss a');
@@ -40,6 +36,16 @@ export default (state = initialState, action) => {
                 ...state,
                 currencies,
                 status: 'resolved'
+            };
+        case REFRESH_CRYPTO_REQUESTED:
+            return {
+                ...initialState,
+                status: 'loading'
+            };
+        case REFRESH_CRYPTO_REJECTED:
+            return {
+                ...state,
+                status: 'rejected'
             };
         default:
             return {
@@ -65,7 +71,8 @@ export const fetchCryptoData = () => {
                     ...eth.data
                 }];
 
-                return dispatch({type: REFRESH_CRYPTO, currencies});
-            });
+                dispatch({type: REFRESH_CRYPTO, currencies});
+            })
+            .catch(err => dispatch({type: REFRESH_CRYPTO_REJECTED}));
     }
 };

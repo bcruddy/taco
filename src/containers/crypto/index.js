@@ -18,11 +18,18 @@ const Crypto = props => {
                 <div className="row">
                     <div className="col-md-12">
                         <p>
-                            <a className="btn btn-primary" onClick={() => store.dispatch(fetchCryptoData())}>refresh</a>
+                            <a className="btn btn-primary" onClick={() => store.dispatch(fetchCryptoData())}>
+                                refresh {props.status !== 'resolved' ? props.status : ''}
+                            </a>
                         </p>
                     </div>
                 </div>
                 <div className="row">
+                    {props.status === 'rejected' ? (
+                        <div className="alert alert-warning">
+                            <p className="text-center">Whoops. Looks like we broke something. Sorry about that.</p>
+                        </div>
+                    ) : ''}
                     {props.currencies.map((curr) => (
                         <div className="col-sm-4" key={`crypto-${curr.name}`}>
                             <ul className="list-unstyled">
@@ -50,6 +57,7 @@ const Crypto = props => {
 };
 
 const mapStateToProps = state => ({
+    error: state.crypto.error,
     status: state.crypto.status,
     currencies: state.crypto.currencies
 });
