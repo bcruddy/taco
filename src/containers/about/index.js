@@ -7,7 +7,7 @@ import Leadspace from '../../ui/leadspace';
 
 const About = (props) => (
     <section className="taco--counter">
-        <Leadspace title={`About ${props.health}`} tagline={`Count: ${props.count}`} />
+        <Leadspace title={`About`} tagline={`Count: ${props.count}`} />
         <main className="container">
             <div className="row">
                 <div className="col-md-12">
@@ -43,7 +43,6 @@ const About = (props) => (
 );
 
 const mapStateToProps = state => ({
-    health: state.counter.health,
     count: state.counter.count,
     isIncrementing: state.counter.isIncrementing,
     isDecrementing: state.counter.isDecrementing

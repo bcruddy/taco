@@ -2,7 +2,6 @@ import React from 'react';
 import {Route, Link} from 'react-router-dom';
 import Home from '../home';
 import About from '../about';
-import Editor from '../eventbright/bulk-events';
 
 const App = () => (
     <section className="taco--app">
@@ -24,9 +23,6 @@ const App = () => (
                             <li>
                                 <Link to="/about-us">About</Link>
                             </li>
-                            <li>
-                                <Link to="/events">Events</Link>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -34,7 +30,6 @@ const App = () => (
         </header>
         <Route exact path="/" component={Home} />
         <Route exact path="/about-us" component={About} />
-        <Route exact path="/events" component={Editor} />
     </section>
 );
 

@@ -5,7 +5,6 @@ const bodyParser = require('body-parser'),
     noSlash = require('no-slash');
 
 const app = express();
-const eventbright = require('./eventbright');
 
 app
 .use(helmet())
@@ -15,8 +14,6 @@ app
 .get('/api/health', (req, res) => {
     return res.json({alive: true});
 })
-
-.use('/api/eventbright', eventbright);
 
 // abstract this out into a separate file
 app.listen(3009, () => {
