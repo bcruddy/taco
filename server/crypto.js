@@ -9,7 +9,7 @@ router.get('/eth', (req, res) => {
             eth.currency = 'ETH';
             res.json({ok: true, error: false, data: eth});
         })
-        .catch(err => catchHandler(res, err));
+        .catch(catchHandler(res));
 });
 
 router.get('/btc', (req, res) => {
@@ -19,7 +19,7 @@ router.get('/btc', (req, res) => {
             btc.currency = 'BTC';
             res.json({ok: true, error: false, data: btc});
         })
-        .catch(err => catchHandler(res, err));
+        .catch(catchHandler(res));
 });
 
 module.exports = router;
