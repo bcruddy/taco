@@ -4,7 +4,7 @@ A `create-react-app` + `redux` + `express` boilerplate, based on [create-react-a
 
 ### Getting started
 
-Clone the repo (and nuke `.git` and run `git init` yourself to use this as a starting point) and run `yarn` to install dependencies. The application has not been ejected to keep the structure as simple as possible.
+Clone the repo (and nuke `.git` and run `git init` yourself to use this as a starting point) and run `yarn` to install dependencies. The application has been "ejected".
 
 ### run it locally
 
@@ -15,4 +15,4 @@ You'll need two separate shells to start the app as is:
 
 ### testing
 
-`create-react-app` sets up facebook's `jest`, simply running `yarn test` will run any tests in `*.spec.js` files or create your own `__tests__` directory and run with it from there. Configuring `jest` requires `create-react-app` to be ejected.
+`create-react-app` sets up facebook's `jest`, simply running `yarn test` will run any tests in `*.spec.js` files or create your own `__tests__` directory and run with it from there.
