@@ -11,6 +11,7 @@ router.get('/eth', (req, res) => {
         })
         .catch(err => catchHandler(res, err));
 });
+
 router.get('/btc', (req, res) => {
     fetch('https://api.gemini.com/v1/pubticker/btcusd')
         .then(r => r.json())
