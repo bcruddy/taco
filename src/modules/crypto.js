@@ -30,12 +30,12 @@ export default (state = initialState, action) => {
                 status: 'loading'
             };
         case REFRESH_CRYPTO:
-        // moment(new Date(curr.volume.timestamp)).format('M-D-YY h:mm:ss a')
             const currencies = action.currencies.map(c => {
                 c.timestamp = moment(new Date(c.volume.timestamp)).format('M-D-YY h:mm:ss a');
 
                 return c;
             });
+
             return {
                 ...state,
                 currencies,
