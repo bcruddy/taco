@@ -11,6 +11,7 @@
         "express": "^4.15.3",
         "express-url-cleaner": "^0.0.9",
         "helmet": "^3.6.1",
+        "moment": "^2.18.1",
         "no-slash": "^1.2.15",
         "node-fetch": "^1.7.1",
         "react": "^15.5.4",

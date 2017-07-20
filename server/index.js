@@ -4,7 +4,8 @@ const bodyParser = require('body-parser'),
     helmet = require('helmet'),
     noSlash = require('no-slash');
 
-const app = express();
+const app = express(),
+    cryptoRoutes = require('./crypto');
 
 app
 .use(helmet())
@@ -14,6 +15,10 @@ app
 .get('/api/health', (req, res) => {
     return res.json({alive: true});
 })
+.use('/api/v1/crypto', cryptoRoutes)
+.use('*', (req, res) => {
+    res.status(404).json({code: 404, message: 'Route not found.'});
+});
 
 // abstract this out into a separate file
 app.listen(3009, () => {
