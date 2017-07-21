@@ -19,6 +19,12 @@ const initialState = {
             bid: '...',
             ask: '...',
             last: '...',
+        },
+        {
+            name: 'LTC',
+            bid: '...',
+            ask: '...',
+            last: '...',
         }
     ]
 };
@@ -56,23 +62,33 @@ export default (state = initialState, action) => {
 };
 
 export const fetchCryptoData = () => {
-    const {btc, eth} = API.crypto;
+    const {btc, eth, ltc} = API.crypto;
 
     return dispatch => {
         dispatch({type: REFRESH_CRYPTO_REQUESTED});
 
-        Promise.all([btc(), eth()])
-            .then(([btc, eth]) => {
+        Promise.all([btc(), eth(), ltc()])
+            .then(([btc, eth, ltc]) => {
                 const currencies = [{
                     name: 'BTC',
                     ...btc.data
                 }, {
                     name: 'ETH',
                     ...eth.data
+                }, {
+                    name: 'LTC',
+                    last: parseFloat(ltc.data.price, 10).toFixed(2),
+                    ask: '??',
+                    bid: '??',
+                    volume: {
+                        timestamp: ltc.data.timestamp * 1000
+                    }
                 }];
 
                 dispatch({type: REFRESH_CRYPTO, currencies});
             })
-            .catch(err => dispatch({type: REFRESH_CRYPTO_REJECTED}));
+            .catch(err => {
+                dispatch({type: REFRESH_CRYPTO_REJECTED});
+            });
     }
 };

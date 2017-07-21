@@ -22,4 +22,15 @@ router.get('/btc', (req, res) => {
         .catch(catchHandler(res));
 });
 
+router.get('/ltc', (req, res) => {
+    fetch('https://api.cryptonator.com/api/ticker/ltc-usd')
+        .then(r => r.json())
+        .then(({ticker: ltc, timestamp}) => {
+            ltc.currency = ltc.base;
+            ltc.timestamp = timestamp;
+            res.json({ok: true, error: false, data: ltc})
+        })
+        .catch(catchHandler(res));
+});
+
 module.exports = router;
