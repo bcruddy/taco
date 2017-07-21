@@ -34,18 +34,13 @@ const Crypto = props => {
                         <div className="col-sm-4" key={`crypto-${curr.name}`}>
                             <ul className="list-unstyled">
                                 <li>
-                                    <strong>{curr.name}</strong> <small>{curr.timestamp}</small>
+                                    <strong>{curr.name}</strong>
                                 </li>
                                 <li>
-                                    <strong>
-                                        <small>Last:</small> ${curr.last}
-                                    </strong>
+                                    <small>Last:</small> ${curr.price}
                                 </li>
                                 <li>
-                                    <small>Bid:</small> ${curr.bid}
-                                </li>
-                                <li>
-                                    <small>Ask:</small> ${curr.ask}
+                                    <small>Updated:</small> {curr.timestamp}
                                 </li>
                             </ul>
                         </div>

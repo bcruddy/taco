@@ -10,21 +10,18 @@ const initialState = {
     currencies: [
         {
             name: 'BTC',
-            bid: '...',
-            ask: '...',
-            last: '...',
+            price: '...',
+            timestamp: '...'
         },
         {
             name: 'ETH',
-            bid: '...',
-            ask: '...',
-            last: '...',
+            price: '...',
+            timestamp: '...'
         },
         {
             name: 'LTC',
-            bid: '...',
-            ask: '...',
-            last: '...',
+            price: '...',
+            timestamp: '...'
         }
     ]
 };
@@ -33,7 +30,9 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case REFRESH_CRYPTO:
             const currencies = action.currencies.map(c => {
-                c.timestamp = moment(new Date(c.volume.timestamp)).format('M-D-YY h:mm:ss a');
+                try {
+                    c.timestamp = moment(new Date(c.timestamp)).format('M-D-YY h:mm:ss a');
+                } catch (ex) {}
 
                 return c;
             });
@@ -77,12 +76,7 @@ export const fetchCryptoData = () => {
                     ...eth.data
                 }, {
                     name: 'LTC',
-                    last: parseFloat(ltc.data.price, 10).toFixed(2),
-                    ask: '??',
-                    bid: '??',
-                    volume: {
-                        timestamp: ltc.data.timestamp * 1000
-                    }
+                    ...ltc.data
                 }];
 
                 dispatch({type: REFRESH_CRYPTO, currencies});
