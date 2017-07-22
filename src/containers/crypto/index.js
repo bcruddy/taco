@@ -7,8 +7,20 @@ import {fetchCryptoData} from '../../modules/crypto';
 
 
 const Crypto = props => {
-    if (props.status === 'init') {
+    const {status, currencies} = props;
+    if (status === 'init') {
         store.dispatch(fetchCryptoData());
+    }
+
+    let fontAwesomeIcon;
+    if (status === 'resolved') {
+        fontAwesomeIcon = 'fa-refresh';
+    }
+    else if (status === 'rejected') {
+        fontAwesomeIcon = 'fa-thumbs-down';
+    }
+    else {
+        fontAwesomeIcon = 'fa-spinner fa-spin fa-fw';
     }
 
     return (
@@ -19,28 +31,36 @@ const Crypto = props => {
                     <div className="col-md-12">
                         <p>
                             <a className="btn btn-primary" onClick={() => store.dispatch(fetchCryptoData())}>
-                                refresh {props.status !== 'resolved' ? props.status : ''}
+                                <i className={`fa fa-2x ${fontAwesomeIcon}`}></i>
                             </a>
                         </p>
                     </div>
                 </div>
                 <div className="row">
-                    {props.status === 'rejected' ? (
+                    {status === 'rejected' ? (
                         <div className="alert alert-warning">
                             <p className="text-center">Whoops. Looks like we broke something. Sorry about that.</p>
                         </div>
-                    ) : ''}
-                    {props.currencies.map((curr) => (
-                        <div className="col-sm-4" key={`crypto-${curr.name}`}>
+                    ) : currencies.map((curr, index) => (
+                        <div className="col-sm-4" key={`crypto-${index}`}>
                             <ul className="list-unstyled">
                                 <li>
-                                    <strong>{curr.name}</strong>
+                                    <strong>{curr.name}</strong> ${curr.price}
                                 </li>
                                 <li>
-                                    <small>Last:</small> ${curr.price}
+                                    <small>
+                                        <strong>Updated:</strong> {curr.datetime}
+                                    </small>
                                 </li>
                                 <li>
-                                    <small>Updated:</small> {curr.timestamp}
+                                    <hr />
+                                    <ul>
+                                        {curr.cache.map((cached, index) => (
+                                            <li key={`cached-${curr.name}-${index}`}>
+                                                <small><strong>${cached.price}</strong>  {cached.datetime}</small>
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </li>
                             </ul>
                         </div>
@@ -52,9 +72,10 @@ const Crypto = props => {
 };
 
 const mapStateToProps = state => ({
+    cache: state.crypto.cache,
+    currencies: state.crypto.currencies,
     error: state.crypto.error,
-    status: state.crypto.status,
-    currencies: state.crypto.currencies
+    status: state.crypto.status
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

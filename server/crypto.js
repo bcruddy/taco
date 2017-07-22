@@ -7,7 +7,7 @@ router.get('/eth', (req, res) => {
         .then(r => r.json())
         .then(data => {
             const eth = {
-                currency: 'ETH',
+                name: 'ETH',
                 price: data.last,
                 timestamp: data.volume.timestamp
             };
@@ -19,9 +19,9 @@ router.get('/eth', (req, res) => {
 router.get('/btc', (req, res) => {
     fetch('https://api.gemini.com/v1/pubticker/btcusd')
         .then(r => r.json())
-        .then((data) => {
+        .then(data => {
             const btc = {
-                currency: 'BTC',
+                name: 'BTC',
                 price: data.last,
                 timestamp: data.volume.timestamp
             };
@@ -33,10 +33,10 @@ router.get('/btc', (req, res) => {
 router.get('/ltc', (req, res) => {
     fetch('https://api.cryptonator.com/api/ticker/ltc-usd')
         .then(r => r.json())
-        .then(({ticker: data, timestamp}) => {
+        .then(({ticker, timestamp}) => {
             const ltc = {
-                currency: 'LTC',
-                price: parseFloat(data.price, 10).toFixed(2),
+                name: 'LTC',
+                price: parseFloat(ticker.price, 10).toFixed(2),
                 timestamp: timestamp * 1000
             };
             res.json({ok: true, error: false, data: ltc})

@@ -5,23 +5,32 @@ const REFRESH_CRYPTO_REQUESTED = 'crypto/REFRESH_REQUESTED';
 const REFRESH_CRYPTO = 'crypto/REFRESH';
 const REFRESH_CRYPTO_REJECTED = 'crypto/REFRESH_REJECTED';
 
+const cache = {
+    btc: [],
+    eth: [],
+    ltc: []
+};
+
 const initialState = {
     status: 'init',
     currencies: [
         {
             name: 'BTC',
             price: '...',
-            timestamp: '...'
+            datetime: '...',
+            cache: cache.btc
         },
         {
             name: 'ETH',
             price: '...',
-            timestamp: '...'
+            datetime: '...',
+            cache: cache.eth
         },
         {
             name: 'LTC',
             price: '...',
-            timestamp: '...'
+            datetime: '...',
+            cache: cache.ltc
         }
     ]
 };
@@ -29,12 +38,12 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case REFRESH_CRYPTO:
-            const currencies = action.currencies.map(c => {
-                try {
-                    c.timestamp = moment(new Date(c.timestamp)).format('M-D-YY h:mm:ss a');
-                } catch (ex) {}
+            const {currencies} = action;
+            currencies.forEach(c => {
+                const currencyName = c.name.toLowerCase();
 
-                return c;
+                cache[currencyName].unshift(c);
+                c.cache = cache[currencyName];
             });
 
             return {
@@ -55,29 +64,26 @@ export default (state = initialState, action) => {
         default:
             return {
                 ...state,
+                cache,
                 status: 'init'
             };
     }
 };
 
 export const fetchCryptoData = () => {
-    const {btc, eth, ltc} = API.crypto;
+    const {btc, eth, ltc} = API.Crypto;
 
     return dispatch => {
         dispatch({type: REFRESH_CRYPTO_REQUESTED});
 
         Promise.all([btc(), eth(), ltc()])
-            .then(([btc, eth, ltc]) => {
-                const currencies = [{
-                    name: 'BTC',
-                    ...btc.data
-                }, {
-                    name: 'ETH',
-                    ...eth.data
-                }, {
-                    name: 'LTC',
-                    ...ltc.data
-                }];
+            .then(currencyData => {
+                const currencies = currencyData.map(c => {
+                    return {
+                        datetime: moment(new Date(c.data.timestamp)).format('M-D-YY h:mm:ss a'),
+                        ...c.data
+                    };
+                });
 
                 dispatch({type: REFRESH_CRYPTO, currencies});
             })
