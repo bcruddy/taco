@@ -1,3 +1,11 @@
 button:disabled {
     opacity: 0.5;
 }
+
+.bg-red {
+    background-color: rgba(255, 0, 0, 0.2);
+}
+
+.bg-green {
+    background-color: rgba(0, 255, 0, 0.2);
+}

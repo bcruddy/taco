@@ -5,6 +5,9 @@ import Leadspace from '../../ui/leadspace';
 import store from '../../store';
 import {fetchCryptoData} from '../../modules/crypto';
 
+const livePriceInterval = setInterval(() => {
+    store.dispatch(fetchCryptoData());
+}, 20 * 1000);
 
 const Crypto = props => {
     const {status, currencies} = props;
@@ -56,7 +59,8 @@ const Crypto = props => {
                                     <hr />
                                     <ul>
                                         {curr.cache.map((cached, index) => (
-                                            <li key={`cached-${curr.name}-${index}`}>
+                                            <li key={`cached-${curr.name}-${index}`}
+                                                className={fuckItClasserizeritizer(curr.price, cached.price)}>
                                                 <small><strong>${cached.price}</strong>  {cached.datetime}</small>
                                             </li>
                                         ))}
@@ -70,6 +74,23 @@ const Crypto = props => {
         </section>
     );
 };
+
+function fuckItClasserizeritizer (livePrice, historicalPrice) {
+    let className;
+
+    if (livePrice > historicalPrice) {
+        className = 'bg-red';
+    }
+    else if (livePrice < historicalPrice) {
+        className = 'bg-green';
+    }
+    else {
+        className = '';
+    }
+
+    console.log('fuckItClasserizeritizer', {className});
+    return className;
+}
 
 const mapStateToProps = state => ({
     cache: state.crypto.cache,

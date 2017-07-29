@@ -63,7 +63,7 @@ export default (state = initialState, action) => {
             };
         default:
             return {
-                ...state,
+                ...initialState,
                 cache,
                 status: 'init'
             };
