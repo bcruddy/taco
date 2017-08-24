@@ -7,7 +7,7 @@ const Home = props => (
         <main className="container">
             <div className="row">
                 <div className="col-md-12">
-                    <p>hello.</p>
+                    <p>hello world.</p>
                 </div>
             </div>
         </main>
