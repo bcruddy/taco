@@ -1,5 +1,6 @@
 import * as moment from 'moment';
 import * as API from '../utils/api';
+import shortid from 'shortid';
 
 const REFRESH_CRYPTO_REQUESTED = 'crypto/REFRESH_REQUESTED';
 const REFRESH_CRYPTO = 'crypto/REFRESH';
@@ -42,6 +43,7 @@ export default (state = initialState, action) => {
             currencies.forEach(c => {
                 const currencyName = c.name.toLowerCase();
 
+                c.id = shortid.generate();
                 cache[currencyName].unshift(c);
                 c.cache = cache[currencyName];
             });
@@ -51,21 +53,18 @@ export default (state = initialState, action) => {
                 currencies,
                 status: 'resolved'
             };
-        case REFRESH_CRYPTO_REQUESTED:
-            return {
-                ...initialState,
-                status: 'loading'
-            };
         case REFRESH_CRYPTO_REJECTED:
-            return {
-                ...state,
-                status: 'rejected'
-            };
-        default:
             return {
                 ...initialState,
                 cache,
-                status: 'init'
+                status: 'rejected'
+            };
+        case REFRESH_CRYPTO_REQUESTED:
+        default: // loading and REFRESH_CRYPTO_REQUESTED
+            return {
+                ...initialState,
+                cache,
+                status: 'loading'
             };
     }
 };
@@ -77,16 +76,13 @@ export const fetchCryptoData = () => {
         dispatch({type: REFRESH_CRYPTO_REQUESTED});
 
         Promise.all([btc(), eth(), ltc()])
-            .then(currencyData => {
-                const currencies = currencyData.map(c => {
-                    return {
-                        datetime: moment(new Date(c.data.timestamp)).format('M-D-YY h:mm:ss a'),
-                        ...c.data
-                    };
-                });
-
-                dispatch({type: REFRESH_CRYPTO, currencies});
-            })
+            .then(currencyData => currencyData.map(c => {
+                return {
+                    datetime: moment(new Date(c.data.timestamp)).format('M-D-YY h:mm:ss a'),
+                    ...c.data
+                };
+            }))
+            .then(currencies => dispatch({type: REFRESH_CRYPTO, currencies}))
             .catch(err => {
                 dispatch({type: REFRESH_CRYPTO_REJECTED});
             });
